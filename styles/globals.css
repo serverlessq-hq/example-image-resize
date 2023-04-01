@@ -1,0 +1,142 @@
+
+/* This allow me to have the full width of the page without the initial padding/margin*/
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Acme;
+  min-width: 700px;
+}
+
+.splitdiv {
+  height: 100%;
+  width: 50%;
+}
+
+/* This part contains all of the left side of the screen */
+/* ----------------------------------------- */
+#leftdiv {
+  float: left;
+  background-color: #fafafa;
+  height: 932px;
+}
+
+#leftdivcard {
+  margin: 0 auto;
+  width: 50%;
+  background-color: white;
+  margin-top: 25vh;
+  transform: translateY(-50%);
+  box-shadow: 10px 10px 1px 0px rgba(78, 205, 196, 0.2);
+  border-radius: 10px;
+}
+
+#leftbutton {
+  background-color: #3DC2B7;
+  border-radius: 5px;
+  color: #fafafa;
+  margin-left: 350px;
+}
+
+/* ----------------------------------------- */
+
+/* This part contains all of the right side of the screen */
+/* ----------------------------------------- */
+#rightdiv {
+  float: right;
+  background-color: #cbcfcf;
+  height: 932px;
+}
+
+#rightdivcard {
+  margin: 0 auto;
+  width: 50%;
+  margin-top: 50vh;
+  transform: translateY(-50%);
+  background-position: bottom;
+  background-size: 20px 2px;
+  background-repeat: repeat-x;
+}
+
+/* ----------------------------------------- */
+
+/* Basic styling */
+/* ----------------------------------------- */
+
+button {
+  outline: none !important;
+  font-family: Lobster;
+  margin-bottom: 15px;
+  border: none;
+  font-size: 20px;
+  padding: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: -15px;
+  cursor: pointer;
+}
+
+h1 {
+  font-family: Lobster;
+  color: #3DC2B7;
+  text-align: center;
+  font-size: 40px;
+}
+
+input {
+  font-family: Acme;
+  font-size: 16px;
+  font-family: 15px;
+}
+
+input {
+  width: 30%;
+  height: 20px;
+  padding: 16px;
+  margin-left: 1%;
+  margin-right: 2%;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  display: inline-block;
+  border: none;
+}
+
+input:focus {
+  outline: none !important;
+  border: 1px solid #3DC2B7;
+  box-shadow: 0 0 1px round #719ece;
+}
+
+/* ----------------------------------------- */
+
+.main {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+}
+
+.main-h2 {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.body-h1 {
+  padding-top: 20px;
+  text-align: center;
+  color: white;
+}
+
+.inner-p {
+  color: white;
+  text-align: center;
+}
+
+.main-align {
+  text-align: center;
+}
+
+.form-control {
+  margin-left: 15px;
+}
