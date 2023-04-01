@@ -19,7 +19,7 @@ SUPABASE_URL=
 SUPABASE_KEY=
 SERVERLESSQ_API_TOKEN=
 ```
-In the example, we are using superbase as an storage provided. The `SERVERLESSQ_API_TOKEN` will be set automatically if you are using [our integration](https://vercel.com/integrations/serverlessq) 🚀
+In the example, we are using [supabase](https://supabase.com/) as an storage provided. The `SERVERLESSQ_API_TOKEN` will be set automatically if you are using [our integration](https://vercel.com/integrations/serverlessq) 🚀
 
 Then, run the development server:
 
