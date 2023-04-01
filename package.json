@@ -1,5 +1,5 @@
 {
-  "name": "nextjs",
+  "name": "example-image-resize-serverlessq",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@serverlessq/nextjs": "^1.0.9",
+    "@supabase/supabase-js": "^2.13.1",
     "eslint": "^8.36.0",
     "eslint-config-next": "13.2.4",
     "formidable": "^2.1.1",
@@ -22,7 +23,6 @@
     "@types/formidable": "^2.0.5",
     "@types/node": "18.15.10",
     "@types/react": "18.0.29",
-    "aws-sdk": "^2.1343.0",
     "typescript": "5.0.2"
   }
 }

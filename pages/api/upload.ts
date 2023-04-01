@@ -1,14 +1,17 @@
+import { createClient } from "@supabase/supabase-js";
+import formidable, { IncomingForm } from "formidable";
+import { readFile } from "fs/promises";
 import type { NextApiRequest, NextApiResponse } from "next";
 import ResizeImageQueue from "./resize";
-import AWS from "aws-sdk";
-import formidable, { IncomingForm } from "formidable";
-import { createReadStream } from "fs";
-import { readFile } from "fs/promises";
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
+// Create a single supabase client for interacting with your database
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
+const Bucket = "images";
+
 export const config = {
   api: {
     bodyParser: false,
@@ -33,29 +36,27 @@ export default async function handler(
 ) {
   const queue = await ResizeImageQueue;
 
-  const { fields, files } = await asyncParse(req);
+  const { files } = await asyncParse(req);
   const file = files.image as formidable.File;
   const image = await readFile(file.filepath);
 
-  console.log({
-    file
-  });
-
   // ... your business logic for image uploading
-  const params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: `images/product/${file.originalFilename}`,
-    Body: image,
-  };
 
-  const result = await s3.upload(params).promise();
+  const { data, error } = await supabase.storage
+    .from(Bucket)
+    .upload(`product/${file.originalFilename}`, image);
+
+  if (error) {
+    console.log(error);
+    return res.status(500).json({ error });
+  }
 
   // Enqueue the job
   await queue.enqueue({
     method: "POST",
     body: {
-      Key: result.Key,
-      Bucket: result.Bucket,
+      Key: data.path,
+      Bucket: Bucket,
     },
   });
 

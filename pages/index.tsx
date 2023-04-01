@@ -15,15 +15,20 @@ export default function Home() {
 
     formdata.append("image", image, image["name"]);
 
-    await fetch("/api/upload", {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-      },
-      body: formdata,
-    });
-    setLoading(false)
-    alert("Image uploaded successfully");
+    try {
+      await fetch("/api/upload", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formdata,
+      });
+      alert("Image uploaded successfully");
+    } catch {
+      alert("Unable to upload the image. Please try again");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleUpload = () => {
@@ -92,7 +97,12 @@ export default function Home() {
                   alt="image"
                 />
 
-                <button type="button" id="leftbutton" onClick={_uploadImage} disabled={loading}>
+                <button
+                  type="button"
+                  id="leftbutton"
+                  onClick={_uploadImage}
+                  disabled={loading}
+                >
                   Upload Image
                 </button>
               </>

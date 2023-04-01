@@ -1,9 +1,13 @@
 import { Queue } from "@serverlessq/nextjs";
+import { createClient } from "@supabase/supabase-js";
 
-import AWS from "aws-sdk";
 import sharp from "sharp";
 
-const s3 = new AWS.S3();
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
 export default Queue(
   "Image-Resize", // Name of the queue,
   "api/resize", // Path to this queue,
@@ -11,15 +15,9 @@ export default Queue(
     // Get the bucket and key from the request body, sent from our upload handler
     const { Bucket, Key } = req.body;
 
-    // Download the image from S3
-    const params = {
-      Bucket,
-      Key,
-    };
-    const result = await s3.getObject(params).promise();
+    const { data, error } = await supabase.storage.from(Bucket).download(Key);
 
-
-    const imageData = result.Body as Buffer
+    const imageData = await data.arrayBuffer();
 
     const [thumbnail, avatar, large] = await Promise.all([
       sharp(imageData).resize(120).toBuffer(),
@@ -33,27 +31,9 @@ export default Queue(
     ]);
 
     await Promise.all([
-      s3
-        .upload({
-          Bucket,
-          Key: `thumbnails/${Key}`,
-          Body: thumbnail,
-        })
-        .promise(),
-      s3
-        .upload({
-          Bucket,
-          Key: `avatars/${Key}`,
-          Body: avatar,
-        })
-        .promise(),
-      s3
-        .upload({
-          Bucket,
-          Key: `large/${Key}`,
-          Body: large,
-        })
-        .promise(),
+      supabase.storage.from(Bucket).upload(`thumbnails/${Key}`, thumbnail),
+      supabase.storage.from(Bucket).upload(`avatars/${Key}`, avatar),
+      supabase.storage.from(Bucket).upload(`large/${Key}`, large),
     ]);
 
     res.status(200).json({
